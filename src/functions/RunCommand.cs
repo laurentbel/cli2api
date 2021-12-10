@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -8,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Net;
+
 
 namespace cli2api
 {
@@ -41,9 +41,7 @@ namespace cli2api
             string output = await commandLine.RunAsync(command, arguments);
 
             // Return the result
-            return commandLine.IsOutputJson ?
-                new JsonResult(output) :
-                new OkObjectResult(output);
+            return new OkObjectResult(output);
         }
     }
 }
