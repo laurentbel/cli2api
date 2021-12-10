@@ -24,9 +24,9 @@ namespace cli2api
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             // Get list of allowed commands from config
-            string allowedCommands = Environment.GetEnvironmentVariable("cli2api:commands");
+            string allowedCommands = Environment.GetEnvironmentVariable("cli2api:commands") ?? "";
             if (!allowedCommands.Split(',').Contains(command)) {
-                return new BadRequestObjectResult($"Command {command} is not allowed");
+                return new BadRequestObjectResult($"Command {command} is not allowed. Ensure env variable cli2api:commands is correctly configured.");
             }
 
             // Parsing arguments
@@ -35,6 +35,10 @@ namespace cli2api
                 argumentsArray.ToList().ForEach(x => x = WebUtility.UrlDecode(x));
                 arguments = String.Join(' ', argumentsArray);
             }
+
+            // Append any suffix argument
+            string suffixArgument = Environment.GetEnvironmentVariable("cli2api:suffix_argument") ?? "";
+            arguments = string.Concat(arguments, " ", suffixArgument).TrimEnd();
             
             // Run the command
             CommandLine commandLine = new CommandLine();
