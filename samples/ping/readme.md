@@ -1,4 +1,4 @@
-# CLI2API - Ping command
+# cli2api - ping
 
 ping command over API
 

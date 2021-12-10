@@ -1,4 +1,4 @@
-# CLI2API - nslookup command
+# cli2api - nslookup
 
 nslookup command over API.
 

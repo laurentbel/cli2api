@@ -1,4 +1,4 @@
-# CLI2API
+# cli2api
 cli2api is a generic wrapper around any command line interface (CLI) to expose it over a REST API endpoint.
 
 ## Simple example with ping command
