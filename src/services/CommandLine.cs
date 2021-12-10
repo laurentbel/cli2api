@@ -58,7 +58,11 @@ namespace cli2api {
             var task2 = process.StandardError.ReadToEndAsync();
 
             // Wait for the process to complete
-            process.WaitForExit();
+            bool hasExited = process.WaitForExit(30000);
+            if (!hasExited) {
+                // Kill process and children if not stopped
+                process.Kill(true);
+            }
 
             // Wait for the output and error to complete and get the result
             await Task.WhenAll(task1, task2);
