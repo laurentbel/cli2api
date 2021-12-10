@@ -9,7 +9,7 @@ RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
 RUN python2 get-pip.py
 
 # install the securityheaders app from https://github.com/koenbuyens/securityheaders/
-WORKDIR /app/
+WORKDIR /cli
 RUN git clone --depth=1 https://github.com/koenbuyens/securityheaders.git
-WORKDIR /app/securityheaders
+WORKDIR /cli/securityheaders
 RUN pip2 install --no-cache-dir -r requirements.txt
