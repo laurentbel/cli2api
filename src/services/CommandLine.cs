@@ -78,8 +78,8 @@ namespace cli2api {
                 _isOutputJson = false;
             }
 
-            // Returns the standard output
-            return _standardOutput;
+            // Returns the standard output or the error output if empty
+            return string.IsNullOrEmpty(_standardOutput) ? _standardError : _standardOutput;
         }
     }
 }
