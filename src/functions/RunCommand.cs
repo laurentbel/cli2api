@@ -6,6 +6,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace cli2api
 {
@@ -49,11 +50,29 @@ namespace cli2api
             arguments = string.Concat(arguments, " ", suffixArgument).TrimEnd();
             
             // Run the command
-            CommandLine commandLine = new CommandLine();
-            string output = await commandLine.RunAsync(command, arguments);
+            CommandLine cli = new CommandLine();
+            await cli.RunAsync(command, arguments);
 
             // Return the result
-            return new OkObjectResult(output);
+            if (!string.IsNullOrEmpty(cli.StandardOutput)) {
+                if (cli.IsStandardOutputJson) {
+                    return new ContentResult { Content = cli.StandardOutput, ContentType = "application/json" };
+                }
+                else {
+                    return new OkObjectResult(cli.StandardOutput);
+                }
+            }
+            else if (!string.IsNullOrEmpty(cli.StandardError)) {
+                if (cli.IsStandardErrorJson) {
+                    return new ContentResult { Content = cli.StandardError, ContentType = "application/json" };
+                }
+                else {
+                    return new OkObjectResult(cli.StandardError);
+                }
+            }
+            else {
+                return new OkResult();
+            }
         }
     }
 }
