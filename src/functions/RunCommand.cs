@@ -6,8 +6,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Linq;
-using System.Net;
-
 
 namespace cli2api
 {
@@ -32,7 +30,7 @@ namespace cli2api
             // Parsing arguments
             if (!string.IsNullOrEmpty(arguments)) {
                 string[] argumentsArray = arguments.Split('/');
-                argumentsArray.ToList().ForEach(x => x = WebUtility.UrlDecode(x));
+                argumentsArray = argumentsArray.Select(x => x = Uri.UnescapeDataString(x)).ToArray();
                 arguments = String.Join(' ', argumentsArray);
             }
 
