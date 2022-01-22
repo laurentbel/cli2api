@@ -11,6 +11,7 @@ namespace cli2api
 {
     public static class RunCommand
     {
+        private static string _apiKeyName = "x-api-key";
 
         [FunctionName("RunCommand")]
         public static async Task<IActionResult> Run(
@@ -20,6 +21,15 @@ namespace cli2api
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
+
+            // Check if an api key is expected
+            string apiKey = Environment.GetEnvironmentVariable("cli2api:api_key") ?? "";
+            if (!string.IsNullOrEmpty(apiKey)) {
+                if (!req.Headers.ContainsKey(_apiKeyName) ||
+                    req.Headers[_apiKeyName] != apiKey) {
+                        return new UnauthorizedResult();
+                    }
+            }
 
             // Get list of allowed commands from config
             string allowedCommands = Environment.GetEnvironmentVariable("cli2api:commands") ?? "";
