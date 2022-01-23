@@ -24,7 +24,7 @@ namespace cli2api
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             // Check if an api key is expected
-            string apiKey = Environment.GetEnvironmentVariable("cli2api:api_key") ?? "";
+            string apiKey = Environment.GetEnvironmentVariable("cli2api_api_key") ?? "";
             if (!string.IsNullOrEmpty(apiKey)) {
                 if (!req.Headers.ContainsKey(_apiKeyName) ||
                     req.Headers[_apiKeyName] != apiKey) {
@@ -33,9 +33,9 @@ namespace cli2api
             }
 
             // Get list of allowed commands from config
-            string allowedCommands = Environment.GetEnvironmentVariable("cli2api:commands") ?? "";
+            string allowedCommands = Environment.GetEnvironmentVariable("cli2api_commands") ?? "";
             if (!allowedCommands.Split(',').Contains(command)) {
-                return new BadRequestObjectResult($"Command {command} is not allowed. Ensure env variable cli2api:commands is correctly configured.");
+                return new BadRequestObjectResult($"Command {command} is not allowed. Ensure env variable cli2api_commands is correctly configured.");
             }
 
             // Parsing arguments
@@ -46,7 +46,7 @@ namespace cli2api
             }
 
             // Append any suffix argument
-            string suffixArgument = Environment.GetEnvironmentVariable("cli2api:suffix_argument") ?? "";
+            string suffixArgument = Environment.GetEnvironmentVariable("cli2api_suffix_argument") ?? "";
             arguments = string.Concat(arguments, " ", suffixArgument).TrimEnd();
             
             // Run the command

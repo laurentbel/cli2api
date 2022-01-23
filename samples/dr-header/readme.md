@@ -10,6 +10,6 @@ docker build -t cli2api-dr-header .
 
 ## Run
 ```
-docker run -it --rm -p 80:80 --env cli2api:commands=drheader --env cli2api:suffix_argument="--json" cli2api-dr-header
+docker run -it --rm -p 80:80 --env cli2api_commands=drheader --env cli2api_suffix_argument="--json" cli2api-dr-header
 ```
 Then browse http://localhost/drheader/scan/single/https%3A%2F%2Fgoogle.com
