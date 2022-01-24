@@ -23,10 +23,16 @@ namespace cli2api {
             get { return _standardError; }
         }
 
-        // Is the output json formatted
-        private bool _isOutputJson;
-        public bool IsOutputJson { 
-            get { return _isOutputJson; }
+        // Is the standard output json formatted
+        private bool _isStandardOutputJson;
+        public bool IsStandardOutputJson { 
+            get { return _isStandardOutputJson; }
+        }
+
+        // Is the standard error json formatted
+        private bool _isStandardErrorJson;
+        public bool IsStandardErrorJson { 
+            get { return _isStandardErrorJson; }
         }
 
         // Constructor
@@ -44,7 +50,7 @@ namespace cli2api {
         }
 
         // Run command line async
-        public async Task<string> RunAsync(string command, string arguments)
+        public async Task RunAsync(string command, string arguments)
         {
             // Setting the command and arguments
             _processStartInfo.FileName = command;
@@ -72,14 +78,20 @@ namespace cli2api {
             // Determine if the standard output is json
             try {
                 JsonNode.Parse(_standardOutput);
-                _isOutputJson = true;
+                _isStandardOutputJson = true;
             }
             catch {
-                _isOutputJson = false;
+                _isStandardOutputJson = false;
             }
 
-            // Returns the standard output
-            return _standardOutput;
+            // Determine if the standard error is json
+            try {
+                JsonNode.Parse(_standardError);
+                _isStandardErrorJson = true;
+            }
+            catch {
+                _isStandardErrorJson = false;
+            }
         }
     }
 }
