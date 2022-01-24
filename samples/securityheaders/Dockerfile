@@ -1,4 +1,4 @@
-FROM cli2api
+FROM laurentbel/cli2api
 
 # install python 2 
 RUN apt-get update && apt-get install -y python2 git
