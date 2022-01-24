@@ -1,4 +1,4 @@
-FROM cli2api
+FROM laurentbel/cli2api
 
 # install Python 3.7.4
 RUN apt-get update &&  apt-get install -y wget build-essential checkinstall libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev git
